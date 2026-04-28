@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+frontend/dist/
+
+# Local data
+backend/data.sqlite
+backend/data.sqlite-journal
+backend/data.sqlite-wal
+backend/data.sqlite-shm
+
+# Uploaded files (keep folder, ignore contents)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

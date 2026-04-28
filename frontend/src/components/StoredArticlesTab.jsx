@@ -25,21 +25,30 @@ export default function StoredArticlesTab() {
     );
   }, [articles, filter]);
 
-  if (loading) return <p>Loading…</p>;
+  if (loading) return <div className="empty">Loading…</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
     <div>
-      <input
-        className="filter"
-        placeholder="Filter by title, author, keyword, or URL"
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-      />
-      <div className="grid">
-        {filtered.map((a) => <ArticleCard key={a.id} article={a} />)}
+      <div className="panel">
+        <h2>Stored Articles</h2>
+        <p className="hint">{articles.length} saved · filter by title, author, keyword, or URL.</p>
+        <input
+          className="filter"
+          placeholder="Filter…"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
       </div>
-      {filtered.length === 0 && <p className="muted">No articles match.</p>}
+      {filtered.length > 0 ? (
+        <div className="grid">
+          {filtered.map((a) => <ArticleCard key={a.id} article={a} />)}
+        </div>
+      ) : (
+        <div className="empty">
+          {articles.length === 0 ? 'No articles yet — run a search first.' : 'No articles match your filter.'}
+        </div>
+      )}
     </div>
   );
 }

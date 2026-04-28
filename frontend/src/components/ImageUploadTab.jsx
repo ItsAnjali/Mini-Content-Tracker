@@ -32,18 +32,27 @@ export default function ImageUploadTab() {
 
   return (
     <div>
-      <form className="upload-form" onSubmit={onSubmit}>
-        <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <input placeholder="Source" value={source} onChange={(e) => setSource(e.target.value)} />
-        <input placeholder="Tags (comma separated)" value={tags} onChange={(e) => setTags(e.target.value)} />
-        <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-        <button type="submit" disabled={busy}>{busy ? 'Uploading…' : 'Upload'}</button>
-      </form>
-      {error && <div className="error">{error}</div>}
-      <div className="grid">
-        {images.map((img) => <ImageCard key={img.id} image={img} />)}
+      <div className="panel">
+        <h2>Upload an image</h2>
+        <p className="hint">Stored locally with title, source, and tags.</p>
+        <form className="upload-form" onSubmit={onSubmit}>
+          <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input placeholder="Source (e.g. unsplash)" value={source} onChange={(e) => setSource(e.target.value)} />
+          <input placeholder="Tags (comma separated)" value={tags} onChange={(e) => setTags(e.target.value)} />
+          <input className="file-input" type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+          <button type="submit" disabled={busy}>
+            {busy ? <><span className="spinner" />Uploading</> : 'Upload'}
+          </button>
+        </form>
       </div>
-      {images.length === 0 && <p className="muted">No images yet.</p>}
+      {error && <div className="error">{error}</div>}
+      {images.length > 0 ? (
+        <div className="grid">
+          {images.map((img) => <ImageCard key={img.id} image={img} />)}
+        </div>
+      ) : (
+        <div className="empty">No images uploaded yet.</div>
+      )}
     </div>
   );
 }

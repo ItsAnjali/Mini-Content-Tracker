@@ -9,7 +9,7 @@ const insertArticle = db.prepare(`
   VALUES (@object_id, @title, @url, @author, @points, @num_comments, @created_at, @fetched_keyword, @fetched_at)
 `);
 
-const selectByKeyword = db.prepare(`SELECT * FROM articles WHERE fetched_keyword = ? ORDER BY points DESC`);
+const selectByObjectId = db.prepare(`SELECT * FROM articles WHERE object_id = ?`);
 const selectAll = db.prepare(`SELECT * FROM articles ORDER BY fetched_at DESC`);
 
 router.post('/search', async (req, res, next) => {
@@ -40,9 +40,16 @@ router.post('/search', async (req, res, next) => {
         });
       }
     });
-    insertMany(data.hits || []);
+    const hits = data.hits || [];
+    insertMany(hits);
 
-    res.json({ keyword: kw, articles: selectByKeyword.all(kw) });
+    // Preserve HN Algolia's relevance ordering by mapping hits in returned order
+    const articles = hits
+      .filter((h) => h.objectID)
+      .map((h) => selectByObjectId.get(String(h.objectID)))
+      .filter(Boolean);
+
+    res.json({ keyword: kw, articles });
   } catch (e) { next(e); }
 });
 

@@ -14,7 +14,15 @@ export default function App() {
   const [active, setActive] = useState('search');
   return (
     <div className="app">
-      <h1>Mini Content Tracker</h1>
+      <header className="header">
+        <div className="brand">
+          <div className="logo">M</div>
+          <div>
+            <h1>Mini Content Tracker</h1>
+            <div className="subtitle">Search HN, save articles, and upload images.</div>
+          </div>
+        </div>
+      </header>
       <Tabs tabs={TABS} active={active} onChange={setActive} />
       <div className="tab-content">
         {active === 'search' && <KeywordSearchTab />}

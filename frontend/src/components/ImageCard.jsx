@@ -1,10 +1,11 @@
 import React from 'react';
+import { apiUrl } from '../api.js';
 
 export default function ImageCard({ image }) {
   const { title, source, tags, file_path, uploaded_at } = image;
   return (
     <div className="card">
-      <img className="thumb" src={file_path} alt={title} />
+      <img className="thumb" src={apiUrl(file_path)} alt={title} />
       <div className="card-body">
         <h3 className="card-title">{title || '(untitled)'}</h3>
         <div className="card-meta">

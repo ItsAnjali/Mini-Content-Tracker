@@ -10,7 +10,7 @@ const insertArticle = db.prepare(`
 `);
 
 const selectByObjectId = db.prepare(`SELECT * FROM articles WHERE object_id = ?`);
-const selectAll = db.prepare(`SELECT * FROM articles ORDER BY fetched_at DESC`);
+const selectAll = db.prepare(`SELECT * FROM articles ORDER BY points ASC, id ASC`);
 
 router.post('/search', async (req, res, next) => {
   try {

@@ -1,5 +1,9 @@
+const API_BASE = import.meta.env.VITE_API_BASE || '';
+
+export const apiUrl = (path) => `${API_BASE}${path}`;
+
 export async function searchKeyword(keyword) {
-  const r = await fetch('/api/search', {
+  const r = await fetch(apiUrl('/api/search'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ keyword }),
@@ -9,7 +13,7 @@ export async function searchKeyword(keyword) {
 }
 
 export async function getArticles() {
-  const r = await fetch('/api/articles');
+  const r = await fetch(apiUrl('/api/articles'));
   if (!r.ok) throw new Error('Failed to load articles');
   return r.json();
 }
@@ -20,13 +24,13 @@ export async function uploadImage({ title, source, tags, file }) {
   fd.append('source', source);
   fd.append('tags', tags);
   fd.append('image', file);
-  const r = await fetch('/api/images', { method: 'POST', body: fd });
+  const r = await fetch(apiUrl('/api/images'), { method: 'POST', body: fd });
   if (!r.ok) throw new Error((await r.json()).error || 'Upload failed');
   return r.json();
 }
 
 export async function getImages() {
-  const r = await fetch('/api/images');
+  const r = await fetch(apiUrl('/api/images'));
   if (!r.ok) throw new Error('Failed to load images');
   return r.json();
 }
